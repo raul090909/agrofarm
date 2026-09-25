@@ -1,0 +1,99 @@
+:root {
+  --bg: #F6F7F1;
+  --text: #25301F;
+  --muted: #6B7466;
+  --primary: #4F7A3A;
+  --primary-dark: #3D6030;
+  --accent: #C08A3E;
+  --income: #3B8F4F;
+  --expense: #B5652E;
+  --sidebar-bg: #22301C;
+  --sidebar-hover: rgba(160, 196, 120, 0.16);
+  --sidebar-active: rgba(160, 196, 120, 0.30);
+  --card-shadow: 0 1px 8px rgba(37, 48, 31, 0.08);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+.app-shell { display: flex; min-height: 100vh; }
+.app-main { flex: 1; min-width: 0; padding: 1.75rem 2rem; }
+
+.sidebar {
+  width: 248px;
+  flex-shrink: 0;
+  background: var(--sidebar-bg);
+  min-height: 100vh;
+}
+.sidebar-inner { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; }
+.sidebar .brand {
+  color: #F3F6EC;
+  font-weight: 700;
+  padding: 1.25rem;
+  border-bottom: 1px solid rgba(243, 246, 236, 0.12);
+  display: flex; align-items: center; gap: .55rem;
+}
+.sidebar .brand small { display: block; font-weight: 400; font-size: .72rem; opacity: .6; }
+.sidebar .nav-link {
+  color: rgba(243, 246, 236, .72);
+  padding: .55rem 1.1rem;
+  border-radius: .5rem;
+  display: flex; align-items: center; gap: .6rem;
+  font-size: .92rem;
+  transition: background .15s, color .15s;
+}
+.sidebar .nav-link:hover { background: var(--sidebar-hover); color: #F3F6EC; }
+.sidebar .nav-link.active { background: var(--sidebar-active); color: #fff; font-weight: 600; }
+.sidebar .nav-caption {
+  font-size: .65rem; letter-spacing: .1em; text-transform: uppercase;
+  color: rgba(243, 246, 236, .4); padding: 0 1rem .5rem;
+}
+.sidebar .badge-count { margin-left: auto; font-size: .7rem; }
+
+.page-title { font-weight: 700; margin-bottom: 1.25rem; display: flex; align-items: center; gap: .5rem; }
+.page-title i { color: var(--primary); }
+
+.page-card { border: none; border-radius: .875rem; box-shadow: var(--card-shadow); }
+.page-card > .card-header {
+  background: #fff; font-weight: 600; border-bottom: 1px solid #ECEFE6;
+  border-radius: .875rem .875rem 0 0 !important;
+}
+.page-card > .card-header i { color: var(--primary); }
+
+.stat-card { border: none; border-radius: .875rem; box-shadow: var(--card-shadow); transition: transform .15s; }
+.stat-card.clickable { cursor: pointer; }
+.stat-card.clickable:hover { transform: translateY(-2px); }
+.stat-card .stat-icon { color: var(--primary); font-size: 1.4rem; }
+.stat-card .stat-value { font-weight: 700; font-size: 1.25rem; font-variant-numeric: tabular-nums; }
+.stat-card .stat-label { color: var(--muted); font-size: .8rem; }
+
+.text-income { color: var(--income) !important; }
+.text-expense { color: var(--expense) !important; }
+.badge-income { background: rgba(59, 143, 79, .14); color: var(--income); font-weight: 600; }
+.badge-expense { background: rgba(181, 101, 46, .14); color: var(--expense); font-weight: 600; }
+.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.nowrap { white-space: nowrap; }
+
+.btn-primary { background: var(--primary); border-color: var(--primary); }
+.btn-primary:hover, .btn-primary:focus { background: var(--primary-dark); border-color: var(--primary-dark); }
+.btn-outline-primary { color: var(--primary); border-color: var(--primary); }
+.btn-outline-primary:hover { background: var(--primary); border-color: var(--primary); }
+.form-control:focus, .form-select:focus { border-color: var(--primary); box-shadow: 0 0 0 .2rem rgba(79, 122, 58, .2); }
+
+.table > :not(caption) > * > * { padding: .6rem .75rem; }
+.table thead th { font-size: .78rem; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); font-weight: 600; }
+tr.clickable { cursor: pointer; }
+
+.login-page {
+  min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, #2F4424 0%, #4F7A3A 55%, #C08A3E 130%);
+}
+.login-card { width: 100%; max-width: 400px; border: none; border-radius: 1rem; box-shadow: 0 10px 40px rgba(0, 0, 0, .25); }
+
+.progress { height: .5rem; }
+.empty-state { color: var(--muted); text-align: center; padding: 2rem 1rem; }
+.rec-item { border-left: 3px solid var(--primary); }
+.rec-item.auto { border-left-color: var(--accent); }

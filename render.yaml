@@ -1,0 +1,24 @@
+# Render Blueprint: база PostgreSQL + веб-сервис (сервер + панель агронома)
+databases:
+  - name: agrofarm-db
+    databaseName: agro_farm
+    user: agrofarm
+    plan: free
+
+services:
+  - type: web
+    name: agrofarm
+    runtime: docker
+    plan: free
+    healthCheckPath: /
+    envVars:
+      - key: DB_HOST
+        fromDatabase: { name: agrofarm-db, property: host }
+      - key: DB_PORT
+        fromDatabase: { name: agrofarm-db, property: port }
+      - key: DB_NAME
+        fromDatabase: { name: agrofarm-db, property: database }
+      - key: DB_USER
+        fromDatabase: { name: agrofarm-db, property: user }
+      - key: DB_PASSWORD
+        fromDatabase: { name: agrofarm-db, property: password }
