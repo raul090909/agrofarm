@@ -17,7 +17,6 @@ import java.time.YearMonth;
 import java.util.List;
 import java.util.Map;
 
-/** REST API мобильного приложения фермера. Все данные ограничены владельцем токена. */
 @RestController
 @RequestMapping("/api")
 public class FarmerApiController {
@@ -29,8 +28,6 @@ public class FarmerApiController {
         this.farm = farm;
         this.auth = auth;
     }
-
-    // ---------------- профиль
 
     @GetMapping("/profile")
     public Map<String, Object> profile(HttpServletRequest r) {
@@ -47,8 +44,6 @@ public class FarmerApiController {
         auth.changePassword(CurrentSession.subjectId(r), req);
         return Map.of("success", true);
     }
-
-    // ---------------- участки
 
     @GetMapping("/units")
     public List<Map<String, Object>> units(HttpServletRequest r) {
@@ -71,8 +66,6 @@ public class FarmerApiController {
         return Map.of("success", true);
     }
 
-    // ---------------- статьи
-
     @GetMapping("/categories")
     public List<Map<String, Object>> categories(HttpServletRequest r) {
         return farm.listCategories(CurrentSession.subjectId(r)).stream().map(Mapper::category).toList();
@@ -89,8 +82,6 @@ public class FarmerApiController {
         farm.deleteCategory(CurrentSession.subjectId(r), id);
         return Map.of("success", true);
     }
-
-    // ---------------- операции
 
     @GetMapping("/operations")
     public List<Map<String, Object>> operations(HttpServletRequest r,
@@ -128,8 +119,6 @@ public class FarmerApiController {
         return Map.of("success", true);
     }
 
-    // ---------------- аналитика
-
     @GetMapping("/stats/summary")
     public Map<String, Object> summary(HttpServletRequest r, @RequestParam(required = false) String month) {
         return farm.summary(CurrentSession.subjectId(r), parseMonth(month));
@@ -150,8 +139,6 @@ public class FarmerApiController {
         return farm.monthlyTrend(CurrentSession.subjectId(r), Math.max(1, Math.min(months, 24)));
     }
 
-    // ---------------- лимиты
-
     @GetMapping("/limits")
     public List<Map<String, Object>> limits(HttpServletRequest r) {
         return farm.listLimits(CurrentSession.subjectId(r));
@@ -167,8 +154,6 @@ public class FarmerApiController {
         farm.deleteLimit(CurrentSession.subjectId(r), id);
         return Map.of("success", true);
     }
-
-    // ---------------- рекомендации
 
     @GetMapping("/recommendations")
     public List<Map<String, Object>> recommendations(HttpServletRequest r) {

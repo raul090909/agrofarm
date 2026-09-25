@@ -17,11 +17,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-/**
- * Интеграционные тесты REST API «Сельхозфермы».
- * Приложение поднимается целиком (контроллеры, сервисы, JPA) на встроенной базе H2
- * с демонстрационными данными из DataInitializer.
- */
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestMethodOrder(MethodOrderer.DisplayName.class)
@@ -251,7 +246,7 @@ class ApiIntegrationTest {
         MvcResult xlsx = mvc.perform(auth(get("/export/excel?from=" + from + "&to=" + to), a))
                 .andExpect(status().isOk()).andReturn();
         byte[] bytes = xlsx.getResponse().getContentAsByteArray();
-        assertThat(bytes[0]).isEqualTo((byte) 'P'); // xlsx — ZIP-архив, сигнатура PK
+        assertThat(bytes[0]).isEqualTo((byte) 'P');
         mvc.perform(auth(get("/export/csv?from=" + to + "&to=" + from), a)).andExpect(status().isBadRequest());
     }
 

@@ -4,7 +4,6 @@ const num = new Intl.NumberFormat('ru-RU', { maximumFractionDigits: 2 })
 export const rub = (v: number | null | undefined) => (v == null ? '—' : `${money.format(v)} ₽`)
 export const n = (v: number | null | undefined) => (v == null ? '—' : num.format(v))
 
-/** Короткая запись крупных сумм для осей графиков: 1,2 млн, 350 тыс. */
 export const compactRub = (v: number) => {
   const a = Math.abs(v)
   if (a >= 1_000_000) return `${num.format(+(v / 1_000_000).toFixed(1))} млн`

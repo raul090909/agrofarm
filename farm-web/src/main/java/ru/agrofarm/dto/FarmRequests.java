@@ -5,7 +5,6 @@ import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-/** Запросы мобильного приложения на изменение данных фермы. */
 public final class FarmRequests {
 
     private FarmRequests() {}

@@ -3,7 +3,6 @@ package ru.agrofarm.entity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-/** Фермер — пользователь мобильного приложения. */
 @Entity
 @Table(name = "users")
 public class AppUser {
@@ -45,7 +44,6 @@ public class AppUser {
         this.passwordHash = passwordHash;
     }
 
-    /** ФИО одной строкой: «Имя Отчество Фамилия» (порядок, как вводит пользователь). */
     public String getFullName() {
         StringBuilder sb = new StringBuilder(firstName != null ? firstName : "");
         if (secondName != null && !secondName.isBlank()) sb.append(' ').append(secondName);
@@ -53,7 +51,6 @@ public class AppUser {
         return sb.toString();
     }
 
-    /** Разбирает строку ФИО на части. Одно слово — имя, два — имя и фамилия, три и более — имя, отчество, фамилия. */
     public void setFullName(String fullName) {
         if (fullName == null || fullName.isBlank()) {
             this.firstName = "—";

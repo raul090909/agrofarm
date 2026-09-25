@@ -5,7 +5,6 @@ import ru.agrofarm.entity.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-/** Преобразование сущностей в JSON-структуры ответа (без служебных полей вроде хэша пароля). */
 public final class Mapper {
 
     private Mapper() {}

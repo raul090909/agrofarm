@@ -10,7 +10,6 @@ import java.time.Instant;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-/** Защита от подбора пароля: после N неудачных попыток вход по этому ключу блокируется на заданное время. */
 @Service
 public class LoginAttemptService {
 
@@ -30,7 +29,6 @@ public class LoginAttemptService {
         this.lockTime = Duration.ofMinutes(lockMinutes);
     }
 
-    /** Бросает 429, если вход для ключа временно заблокирован. */
     public void assertAllowed(String key) {
         Attempt a = attempts.get(key.toLowerCase());
         if (a != null && a.lockedUntil != null) {
@@ -45,7 +43,6 @@ public class LoginAttemptService {
     public void registerFailure(String key) {
         Instant now = Instant.now();
         attempts.compute(key.toLowerCase(), (k, a) -> {
-            // Счётчик ведётся в пределах окна блокировки: старые ошибки не накапливаются бесконечно
             if (a == null || a.firstFailure.plus(lockTime).isBefore(now)) {
                 a = new Attempt();
                 a.firstFailure = now;

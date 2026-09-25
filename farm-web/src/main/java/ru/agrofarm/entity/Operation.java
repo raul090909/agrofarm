@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-/** Хозяйственная операция: доход или расход по участку. */
 @Entity
 @Table(name = "operations")
 public class Operation {

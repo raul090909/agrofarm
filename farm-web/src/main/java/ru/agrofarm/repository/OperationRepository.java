@@ -15,8 +15,6 @@ public interface OperationRepository extends JpaRepository<Operation, Long> {
 
     String FETCH = "SELECT o FROM Operation o JOIN FETCH o.category JOIN FETCH o.unit u JOIN FETCH u.user ";
 
-    // ---------- выборки для мобильного приложения ----------
-
     @Query(FETCH + "WHERE u.user.id = :userId AND o.operationDate BETWEEN :from AND :to " +
            "ORDER BY o.operationDate DESC, o.id DESC")
     List<Operation> findByUserBetween(@Param("userId") Long userId,
@@ -45,7 +43,6 @@ public interface OperationRepository extends JpaRepository<Operation, Long> {
     BigDecimal sumExpenseByCategory(@Param("userId") Long userId, @Param("categoryId") Long categoryId,
                                     @Param("from") LocalDate from, @Param("to") LocalDate to);
 
-    /** Финансовый результат по участкам фермера за период: [id, name, type, income, expense]. */
     @Query("SELECT u.id, u.name, u.type, " +
            "COALESCE(SUM(CASE WHEN o.type = 'income' THEN o.amount ELSE 0 END), 0), " +
            "COALESCE(SUM(CASE WHEN o.type = 'expense' THEN o.amount ELSE 0 END), 0) " +
@@ -55,8 +52,6 @@ public interface OperationRepository extends JpaRepository<Operation, Long> {
                                @Param("from") LocalDate from, @Param("to") LocalDate to);
 
     long countByCategoryId(Long categoryId);
-
-    // ---------- выборки для панели агронома ----------
 
     @Query("SELECT COALESCE(SUM(o.amount), 0) FROM Operation o " +
            "WHERE o.type = :type AND o.operationDate BETWEEN :from AND :to")
@@ -78,7 +73,6 @@ public interface OperationRepository extends JpaRepository<Operation, Long> {
     @Query(FETCH + "WHERE u.id = :unitId ORDER BY o.operationDate DESC, o.id DESC")
     List<Operation> findByUnit(@Param("unitId") Long unitId);
 
-    /** Результат по всем участкам за период: [id, name, type, ownerId, ownerFirst, ownerSecond, ownerLast, income, expense]. */
     @Query("SELECT u.id, u.name, u.type, w.id, w.firstName, w.secondName, w.lastName, " +
            "COALESCE(SUM(CASE WHEN o.type = 'income' THEN o.amount ELSE 0 END), 0), " +
            "COALESCE(SUM(CASE WHEN o.type = 'expense' THEN o.amount ELSE 0 END), 0) " +
@@ -86,7 +80,6 @@ public interface OperationRepository extends JpaRepository<Operation, Long> {
            "GROUP BY u.id, u.name, u.type, w.id, w.firstName, w.secondName, w.lastName ORDER BY u.name")
     List<Object[]> allUnitResults(@Param("from") LocalDate from, @Param("to") LocalDate to);
 
-    /** Расходы всех фермеров по статьям за период: [name, icon, total]. */
     @Query("SELECT c.name, c.icon, SUM(o.amount) FROM Operation o JOIN o.category c " +
            "WHERE o.type = 'expense' AND o.operationDate BETWEEN :from AND :to " +
            "GROUP BY c.id, c.name, c.icon ORDER BY SUM(o.amount) DESC")

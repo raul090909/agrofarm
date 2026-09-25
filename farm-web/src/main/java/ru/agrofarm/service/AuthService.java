@@ -19,7 +19,6 @@ import ru.agrofarm.security.TokenService;
 
 import java.math.BigDecimal;
 
-/** Регистрация и вход фермеров и агрономов. */
 @Service
 public class AuthService {
 
@@ -47,7 +46,6 @@ public class AuthService {
 
     public record AgronomistLoginResult(TokenService.Session session, Agronomist agronomist) {}
 
-    /** Регистрирует фермера, создаёт ему первый участок и приветственное сообщение. */
     @Transactional
     public LoginResult register(AuthRequests.Register req) {
         String email = req.email().trim().toLowerCase();
@@ -68,7 +66,6 @@ public class AuthService {
         String email = req.email().trim().toLowerCase();
         attempts.assertAllowed("user:" + email);
         AppUser user = users.findByEmailIgnoreCase(email).orElse(null);
-        // Одинаковое сообщение для «нет пользователя» и «неверный пароль» — не раскрываем, какие email существуют.
         if (user == null || !encoder.matches(req.password(), user.getPasswordHash())) {
             attempts.registerFailure("user:" + email);
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Неверный email или пароль");

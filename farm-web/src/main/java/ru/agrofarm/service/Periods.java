@@ -3,7 +3,6 @@ package ru.agrofarm.service;
 import java.time.LocalDate;
 import java.time.YearMonth;
 
-/** Вспомогательные вычисления границ отчётных периодов. */
 public final class Periods {
 
     private Periods() {}
@@ -14,7 +13,6 @@ public final class Periods {
         return new Range(ym.atDay(1), ym.atEndOfMonth());
     }
 
-    /** Текущий период лимита: календарный месяц или квартал, содержащий дату. */
     public static Range forLimit(String period, LocalDate date) {
         if ("quarter".equals(period)) {
             int firstMonth = ((date.getMonthValue() - 1) / 3) * 3 + 1;

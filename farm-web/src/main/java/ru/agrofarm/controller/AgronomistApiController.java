@@ -18,7 +18,6 @@ import ru.agrofarm.service.AnalyticsService;
 import java.util.List;
 import java.util.Map;
 
-/** REST API веб-панели агронома. */
 @RestController
 @RequestMapping("/api/agronomist")
 public class AgronomistApiController {
@@ -75,8 +74,6 @@ public class AgronomistApiController {
     public Map<String, Object> anomalies() {
         return analytics.anomalies();
     }
-
-    // ---------------- рекомендации
 
     @GetMapping("/recommendations")
     @Transactional(readOnly = true)

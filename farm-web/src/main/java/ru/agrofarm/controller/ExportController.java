@@ -17,7 +17,6 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.List;
 
-/** Выгрузка операций за период в CSV и Excel (доступно агроному). */
 @RestController
 public class ExportController {
 
@@ -38,7 +37,7 @@ public class ExportController {
         List<Operation> list = load(from, to);
         response.setContentType("text/csv;charset=UTF-8");
         response.setHeader("Content-Disposition", "attachment; filename=\"operations_" + from + "_" + to + ".csv\"");
-        StringBuilder sb = new StringBuilder("﻿"); // BOM — чтобы Excel распознал UTF-8
+        StringBuilder sb = new StringBuilder("﻿");
         sb.append(String.join(";", HEADERS)).append("\r\n");
         for (Operation o : list) {
             sb.append(o.getId()).append(';')

@@ -6,7 +6,6 @@ import org.springframework.web.server.ResponseStatusException;
 import ru.agrofarm.security.AuthInterceptor;
 import ru.agrofarm.security.TokenService;
 
-/** Доступ к сессии, которую AuthInterceptor положил в запрос. */
 final class CurrentSession {
 
     private CurrentSession() {}

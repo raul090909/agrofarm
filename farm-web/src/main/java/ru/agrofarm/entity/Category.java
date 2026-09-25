@@ -2,7 +2,6 @@ package ru.agrofarm.entity;
 
 import jakarta.persistence.*;
 
-/** Статья дохода или расхода. Глобальные статьи общие для всех, пользовательские принадлежат фермеру. */
 @Entity
 @Table(name = "categories")
 public class Category {

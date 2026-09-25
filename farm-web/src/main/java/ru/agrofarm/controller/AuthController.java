@@ -14,7 +14,6 @@ import ru.agrofarm.service.AuthService;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-/** Регистрация, вход и выход (фермер — мобильное приложение, агроном — веб-панель). */
 @RestController
 @RequestMapping("/api")
 public class AuthController {

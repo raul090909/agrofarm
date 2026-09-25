@@ -11,17 +11,12 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * Хранилище токенов авторизации. Токен — случайная строка из 256 бит,
- * привязанная к роли и идентификатору субъекта, с ограниченным сроком жизни.
- */
 @Service
 public class TokenService {
 
     public static final String ROLE_USER = "user";
     public static final String ROLE_AGRONOMIST = "agronomist";
 
-    /** Данные сессии, связанной с токеном. */
     public record Session(String token, String role, Long subjectId, Instant expiresAt) {}
 
     private final Map<String, Session> sessions = new ConcurrentHashMap<>();

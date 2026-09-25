@@ -15,11 +15,9 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.*;
 
-/** Аналитика для веб-панели агронома: сводные показатели, аномалии, результаты по участкам. */
 @Service
 public class AnalyticsService {
 
-    /** Порог роста расходов месяц к месяцу, при котором фиксируется аномалия (+50 %). */
     static final BigDecimal GROWTH_THRESHOLD = new BigDecimal("1.5");
 
     private final UserRepository users;
@@ -152,7 +150,6 @@ public class AnalyticsService {
         return m;
     }
 
-    /** Все участки с результатом за последние 3 месяца. */
     @Transactional(readOnly = true)
     public List<Map<String, Object>> units() {
         LocalDate to = LocalDate.now();
@@ -189,12 +186,6 @@ public class AnalyticsService {
         return operations.findByUnit(unitId).stream().map(Mapper::operation).toList();
     }
 
-    /**
-     * Аномалии трёх видов:
-     * 1) лимиты расходов, достигшие 80 % и более;
-     * 2) рост расходов фермера в текущем месяце более чем на 50 % к прошлому;
-     * 3) убыточные участки за последние 3 месяца (расходы больше доходов, при этом доходы были).
-     */
     @Transactional(readOnly = true)
     public Map<String, Object> anomalies() {
         LocalDate today = LocalDate.now();

@@ -3,7 +3,6 @@ package ru.agrofarm.entity;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 
-/** Лимит расходов по статье на месяц или квартал. */
 @Entity
 @Table(name = "budget_limits")
 public class BudgetLimit {

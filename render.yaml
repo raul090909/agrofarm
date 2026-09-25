@@ -1,4 +1,3 @@
-# Render Blueprint: база PostgreSQL + веб-сервис (сервер + панель агронома)
 databases:
   - name: agrofarm-db
     databaseName: agro_farm

@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-/** Запросы авторизации. */
 public final class AuthRequests {
 
     private AuthRequests() {}

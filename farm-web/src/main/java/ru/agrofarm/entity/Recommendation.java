@@ -3,7 +3,6 @@ package ru.agrofarm.entity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-/** Рекомендация агронома фермеру (или автоматическое уведомление системы). */
 @Entity
 @Table(name = "recommendations")
 public class Recommendation {

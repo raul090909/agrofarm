@@ -16,7 +16,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-/** Единая обработка ошибок: клиент всегда получает JSON вида {"error": "..."}. */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 

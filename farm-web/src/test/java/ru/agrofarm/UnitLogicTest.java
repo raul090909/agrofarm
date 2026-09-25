@@ -9,7 +9,6 @@ import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/** Модульные тесты вспомогательной логики без запуска Spring. */
 class UnitLogicTest {
 
     @Test @DisplayName("U01 Разбор ФИО из трёх, двух и одного слова")

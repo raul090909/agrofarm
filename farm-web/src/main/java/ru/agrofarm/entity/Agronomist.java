@@ -2,7 +2,6 @@ package ru.agrofarm.entity;
 
 import jakarta.persistence.*;
 
-/** Агроном-аналитик — пользователь веб-панели. */
 @Entity
 @Table(name = "agronomists")
 public class Agronomist {

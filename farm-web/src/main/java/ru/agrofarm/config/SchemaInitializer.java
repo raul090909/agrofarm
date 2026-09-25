@@ -13,10 +13,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-/**
- * Создаёт схему базы данных при первом запуске, если таблиц ещё нет
- * (например, на хостинге с пустой базой). Выполняет скрипт db/agrofarm.sql.
- */
 @Component
 @Order(0)
 public class SchemaInitializer implements CommandLineRunner {
@@ -33,7 +29,7 @@ public class SchemaInitializer implements CommandLineRunner {
         try (Connection c = dataSource.getConnection()) {
             if (!c.getMetaData().getDatabaseProductName().toLowerCase().contains("postgres")) return;
             try (ResultSet rs = c.getMetaData().getTables(null, "public", "users", new String[]{"TABLE"})) {
-                if (rs.next()) return; // схема уже есть
+                if (rs.next()) return;
             }
             log.info("Таблицы не найдены — создаю схему из db/agrofarm.sql");
             String sql = new String(new ClassPathResource("db/agrofarm.sql").getInputStream().readAllBytes(),

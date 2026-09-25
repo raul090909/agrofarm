@@ -1,5 +1,3 @@
-// Клиент REST API панели агронома. Токен хранится в sessionStorage и передаётся в заголовке Authorization.
-
 const TOKEN_KEY = 'agro_token'
 
 export function getToken(): string | null {
@@ -9,7 +7,7 @@ export function setToken(token: string | null) {
   try {
     if (token) sessionStorage.setItem(TOKEN_KEY, token)
     else sessionStorage.removeItem(TOKEN_KEY)
-  } catch { /* хранилище недоступно */ }
+  } catch {  }
 }
 
 export class ApiError extends Error {
@@ -20,7 +18,6 @@ export class ApiError extends Error {
   }
 }
 
-/** Вызывается при 401, чтобы приложение вернуло пользователя на страницу входа. */
 let onUnauthorized: () => void = () => {}
 export function setUnauthorizedHandler(fn: () => void) { onUnauthorized = fn }
 
@@ -45,7 +42,6 @@ async function req<T>(method: string, path: string, body?: unknown): Promise<T> 
   return data as T
 }
 
-/** Скачивает файл выгрузки с передачей токена (обычная ссылка не может отправить заголовок). */
 export async function downloadExport(format: 'csv' | 'excel', from: string, to: string) {
   const res = await fetch(`/export/${format}?from=${from}&to=${to}`, {
     headers: { Authorization: `Bearer ${getToken() ?? ''}` },
@@ -86,8 +82,6 @@ export const api = {
     req<Recommendation>('PUT', `${A}/recommendations/${id}`, { message }),
   deleteRecommendation: (id: number) => req<{ success: boolean }>('DELETE', `${A}/recommendations/${id}`),
 }
-
-// ------------------------------------------------------------------ типы ответов
 
 export interface LoginResponse {
   token: string

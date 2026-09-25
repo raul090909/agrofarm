@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-/** Участок фермы: поле, животноводческий блок, теплица или склад. */
 @Entity
 @Table(name = "farm_units")
 public class FarmUnit {

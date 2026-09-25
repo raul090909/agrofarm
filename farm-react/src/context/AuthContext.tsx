@@ -20,24 +20,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const clear = () => {
     setToken(null)
-    try { sessionStorage.removeItem('agro_name') } catch { /* нет доступа к хранилищу */ }
+    try { sessionStorage.removeItem('agro_name') } catch {  }
     setLoggedIn(false)
     setName('')
   }
 
-  // Истёкший или отозванный токен — возвращаем на страницу входа
   useEffect(() => { setUnauthorizedHandler(clear) }, [])
 
   const login = async (loginValue: string, password: string) => {
     const r = await api.login(loginValue, password)
     setToken(r.token)
-    try { sessionStorage.setItem('agro_name', r.profile.fullName) } catch { /* нет доступа к хранилищу */ }
+    try { sessionStorage.setItem('agro_name', r.profile.fullName) } catch {  }
     setName(r.profile.fullName)
     setLoggedIn(true)
   }
 
   const logout = async () => {
-    try { await api.logout() } catch { /* токен мог уже истечь */ }
+    try { await api.logout() } catch {  }
     clear()
   }
 

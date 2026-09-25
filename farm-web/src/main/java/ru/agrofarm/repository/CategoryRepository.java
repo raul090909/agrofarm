@@ -10,11 +10,9 @@ import java.util.Optional;
 
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
-    /** Глобальные статьи плюс собственные статьи фермера. */
     @Query("SELECT c FROM Category c WHERE c.global = true OR c.user.id = :userId ORDER BY c.type ASC, c.name ASC")
     List<Category> findVisibleFor(@Param("userId") Long userId);
 
-    /** Статья доступна фермеру, если она глобальная или его собственная. */
     @Query("SELECT c FROM Category c WHERE c.id = :id AND (c.global = true OR c.user.id = :userId)")
     Optional<Category> findVisibleById(@Param("id") Long id, @Param("userId") Long userId);
 

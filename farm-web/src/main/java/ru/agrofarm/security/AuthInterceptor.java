@@ -12,10 +12,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-/**
- * Проверяет заголовок Authorization (схема Bearer) и роль субъекта.
- * Разделы агронома (/api/agronomist, /export) доступны только агроному, остальные разделы API — только фермеру.
- */
 @Component
 public class AuthInterceptor implements HandlerInterceptor {
 

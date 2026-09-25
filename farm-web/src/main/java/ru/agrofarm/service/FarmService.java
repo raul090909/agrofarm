@@ -15,10 +15,6 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.*;
 
-/**
- * Бизнес-логика мобильного приложения фермера. Каждый метод получает идентификатор
- * фермера из токена и работает только с его данными.
- */
 @Service
 public class FarmService {
 
@@ -39,8 +35,6 @@ public class FarmService {
         this.limits = limits;
         this.recommendations = recommendations;
     }
-
-    // ------------------------------------------------------------------ участки
 
     @Transactional(readOnly = true)
     public List<FarmUnit> listUnits(Long userId) {
@@ -78,10 +72,8 @@ public class FarmService {
         if (units.countByUserId(userId) <= 1) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Нельзя удалить единственный участок");
         }
-        units.delete(unit); // операции участка удаляются каскадно (ON DELETE CASCADE)
+        units.delete(unit);
     }
-
-    // ------------------------------------------------------------------ статьи
 
     @Transactional(readOnly = true)
     public List<Category> listCategories(Long userId) {
@@ -112,8 +104,6 @@ public class FarmService {
         categories.delete(c);
     }
 
-    // ------------------------------------------------------------------ операции
-
     @Transactional(readOnly = true)
     public List<Operation> listOperations(Long userId, String type, Long unitId, LocalDate from, LocalDate to) {
         LocalDate f = from != null ? from : LocalDate.of(2000, 1, 1);
@@ -133,7 +123,6 @@ public class FarmService {
         return operations.findRecentByUser(userId, PageRequest.of(0, safe));
     }
 
-    /** Создаёт операцию; если после неё превышен лимит, фермеру уходит автоматическое уведомление. */
     @Transactional
     public Operation createOperation(Long userId, FarmRequests.Operation req) {
         Operation op = new Operation();
@@ -201,8 +190,6 @@ public class FarmService {
         }
     }
 
-    // ------------------------------------------------------------------ сводка и аналитика
-
     @Transactional(readOnly = true)
     public Map<String, Object> summary(Long userId, YearMonth ym) {
         Periods.Range r = Periods.month(ym);
@@ -252,7 +239,6 @@ public class FarmService {
         return list;
     }
 
-    /** Доходы и расходы фермера за последние n месяцев (для графика). */
     @Transactional(readOnly = true)
     public List<Map<String, Object>> monthlyTrend(Long userId, int months) {
         List<Map<String, Object>> list = new ArrayList<>();
@@ -269,8 +255,6 @@ public class FarmService {
         }
         return list;
     }
-
-    // ------------------------------------------------------------------ лимиты
 
     @Transactional(readOnly = true)
     public List<Map<String, Object>> listLimits(Long userId) {
@@ -327,8 +311,6 @@ public class FarmService {
         return m;
     }
 
-    // ------------------------------------------------------------------ рекомендации
-
     @Transactional(readOnly = true)
     public List<Recommendation> listRecommendations(Long userId) {
         return recommendations.findByUserIdOrderByCreatedAtDesc(userId);
@@ -341,8 +323,6 @@ public class FarmService {
         r.setRead(true);
         recommendations.save(r);
     }
-
-    // ------------------------------------------------------------------ вспомогательное
 
     @Transactional(readOnly = true)
     public AppUser requireUser(Long userId) {

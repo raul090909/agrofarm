@@ -17,11 +17,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Random;
 
-/**
- * Наполняет пустую базу демонстрационными данными: справочник статей, агронома,
- * трёх фермеров с участками, операциями за полгода, лимитами и рекомендациями.
- * Данные подобраны так, чтобы на странице аномалий были примеры всех трёх видов.
- */
 @Component
 @Order(1)
 public class DataInitializer implements CommandLineRunner {
@@ -68,7 +63,6 @@ public class DataInitializer implements CommandLineRunner {
         LocalDate today = LocalDate.now();
         Long agroId = agronomists.findByLoginIgnoreCase("agronom").map(Agronomist::getId).orElse(null);
 
-        // ---------- Фермер 1: смешанное хозяйство (зерно + молочное стадо)
         AppUser ivan = user("Иван Петрович Кузнецов", "ivan@test.ru", "pass123", 200);
         FarmUnit wheat = unit(ivan, "Поле №1 (пшеница)", FarmUnit.FIELD, "120.00", 0, "Озимая пшеница, чернозём");
         FarmUnit barley = unit(ivan, "Поле №2 (ячмень)", FarmUnit.FIELD, "80.00", 0, "Яровой ячмень");
@@ -92,14 +86,12 @@ public class DataInitializer implements CommandLineRunner {
         op(barley, "Удобрения", "expense", 110_000, "9", "т", "Нитроаммофоска", today.minusMonths(3).withDayOfMonth(2));
         op(barley, "Продажа зерна", "income", 520_000, "190", "т", "Фуражный ячмень", today.minusMonths(1).withDayOfMonth(22));
         op(barn, "Техника и ремонт", "expense", 65_000, null, null, "Ремонт зерносушилки", today.minusMonths(2).withDayOfMonth(19));
-        // Всплеск расходов на корма в текущем месяце — превысит лимит
         op(dairy, "Корма", "expense", 60_000, "2000", "кг", "Закупка сенажа впрок", day(today.withDayOfMonth(1), 2, today));
 
         limit(ivan, "Корма", "140000", BudgetLimit.MONTH);
         limit(ivan, "Топливо и ГСМ", "90000", BudgetLimit.MONTH);
         limit(ivan, "Ветеринария", "60000", BudgetLimit.QUARTER);
 
-        // ---------- Фермер 2: тепличное овощеводство
         AppUser anna = user("Анна Сергеевна Морозова", "anna@test.ru", "pass123", 150);
         FarmUnit gh1 = unit(anna, "Теплица №1 (томаты)", FarmUnit.GREENHOUSE, "0.80", 0, "Зимняя теплица");
         FarmUnit gh2 = unit(anna, "Теплица №2 (огурцы)", FarmUnit.GREENHOUSE, "0.50", 0, null);
@@ -111,7 +103,6 @@ public class DataInitializer implements CommandLineRunner {
             op(gh2, "Удобрения", "expense", 9_000 + rnd.nextInt(4_000), "150", "кг", "Водорастворимые удобрения", day(base, 9, today));
             op(gh2, "Продажа овощей", "income", 70_000 + rnd.nextInt(20_000), "900", "кг", "Огурцы, рынок", day(base, 24, today));
         }
-        // Резкий рост расходов в текущем месяце (ремонт теплицы) — аномалия роста
         LocalDate cur = today.withDayOfMonth(1);
         op(gh1, "Техника и ремонт", "expense", 180_000, null, null, "Замена поликарбоната после града", day(cur, 1, today));
         op(gh1, "Электроэнергия и вода", "expense", 52_000, null, null, "Досветка и полив", day(cur, 2, today));
@@ -120,7 +111,6 @@ public class DataInitializer implements CommandLineRunner {
         op(open, "Зарплата работников", "expense", 60_000, null, null, "Уборка урожая", today.minusMonths(1).withDayOfMonth(3));
         limit(anna, "Электроэнергия и вода", "60000", BudgetLimit.MONTH);
 
-        // ---------- Фермер 3: небольшое животноводство, начало учёта
         AppUser oleg = user("Олег Викторович Смирнов", "oleg@test.ru", "pass123", 60);
         FarmUnit sheep = unit(oleg, "Овчарня", FarmUnit.LIVESTOCK, "1.20", 120, "Романовская порода");
         FarmUnit pasture = unit(oleg, "Пастбище", FarmUnit.FIELD, "35.00", 0, null);
@@ -133,7 +123,6 @@ public class DataInitializer implements CommandLineRunner {
         op(sheep, "Субсидии и гранты", "income", 150_000, null, null, "Субсидия на поголовье", day(today.minusMonths(1).withDayOfMonth(1), 26, today));
         op(pasture, "Аренда земли", "expense", 35_000, null, null, "Аренда за квартал", day(today.minusMonths(1).withDayOfMonth(1), 2, today));
 
-        // ---------- Рекомендации
         rec(ivan, agroId, "crops", "Иван Петрович, по результатам почвенного анализа на поле №1 рекомендую "
                 + "перейти на дробное внесение азотных удобрений: 2–3 подкормки вместо одной. Это снизит потери азота.", true, 20);
         rec(ivan, agroId, "livestock", "Расходы на корма в этом месяце выше плана. Проверьте рацион: "
@@ -162,7 +151,6 @@ public class DataInitializer implements CommandLineRunner {
         for (String[] r : rows) categories.save(new Category(null, r[0], r[1], r[2], true));
     }
 
-    /** Дата внутри месяца base, но не позже сегодняшнего дня. */
     private static LocalDate day(LocalDate base, int dayOfMonth, LocalDate today) {
         LocalDate d = base.withDayOfMonth(Math.min(dayOfMonth, base.lengthOfMonth()));
         return d.isAfter(today) ? today : d;

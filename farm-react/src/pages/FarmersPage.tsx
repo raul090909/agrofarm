@@ -22,7 +22,6 @@ export default function FarmersPage() {
       : (b[sort] as number) - (a[sort] as number))
   }, [data, query, sort])
 
-  // Оптимистичное обновление: переключатель меняется сразу, при ошибке сервера возвращается обратно
   const toggleActive = async (id: number, active: boolean) => {
     setActionError('')
     setData((prev) => prev && prev.map((f) => (f.id === id ? { ...f, active } : f)))
